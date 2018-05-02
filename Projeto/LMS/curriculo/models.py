@@ -37,7 +37,7 @@ class Coordenador(models.Model):
 
     def __str__(self):
         return self.login
-	
+
 class Disciplina(models.Model):
 	ID = models.AutoField("ID", primary_key=True)
 	Nome = models.CharField("Nome", max_length=255)
@@ -81,7 +81,7 @@ class DisciplinaOfertada(models.Model):
 	
 	def __str__(self):
 		return self.ID
-	
+
 class Mensagem(models.Model):
     assunto = models.CharField("Assunto", max_length=255)
     referencia = models.CharField("Referencia", max_length=255)
@@ -94,6 +94,49 @@ class Mensagem(models.Model):
     professor=models.ForeignKey('Professor', on_delete=models.CASCADE)
     def __str__(self):
         return self.assunto
-		
-class Pessoa(models.Model):
-	Nome = models.CharField("Nome", max_length=255)
+
+class Atividade(models.Model):
+    titulo= models.CharField("Titulo", max_length=255)
+    decricao= models.CharField("Descricao", max_length=255)
+    conteudo = models.CharField("Conteudo", max_length=255)
+    tipo= models.CharField("Tipo", max_length=255)
+    extras= models.CharField("Extras", max_length=255)
+    Professor=models.ForeignKey('Professor',on_delete=models.CASCADE)
+    def __str__(self):
+        return self.titulo
+
+class AtividadeVinculada(models.Model):
+    Atividade= models.ForeignKey('Atividade',on_delete=models.CASCADE) 
+    Professor= models.ForeignKey('Professor',on_delete=models.CASCADE)
+    DisciplinaOfertada = models.ForeignKey('DisciplinaOfertada',on_delete=models.CASCADE)
+    rotulo= models.CharField("Rotulo", max_length=255)
+    status= models.CharField("Status", max_length=255) 
+    DtInicioRespostas= models.DateField("DtInicioRespostas", max_length=10)
+    DtFimRespostas= models.DateField(" DtFimRespostas", max_length=10)
+    def __str__(self):
+        return self.Atividade
+    
+
+class SolicitacaoMatricula(models.Model):
+    aluno=models.ForeignKey('Alunos',on_delete=models.CASCADE)
+    disciplinaOfertada=models.ForeignKey('DisciplinaOfertada',on_delete=models.CASCADE)
+    DtSolicitacao=models.DateField('DataSolicitacao')
+    coordenador=models.ForeignKey('Coordenador',on_delete=models.CASCADE)
+    Status=models.CharField('Status', max_length=255)
+
+    def __str__(self):
+        return self.aluno
+
+class Entrega(models.Model):
+    titulo = models.CharField("Titulo", max_length=50)
+    resposta = models.CharField("Resposta", max_length=50)
+    DtEntrega = models.DateField("DtEntrega", max_length=10)
+    Status = models.CharField("Status", max_length=50)
+    Nota = models.DecimalField("Nota",max_digits=5, decimal_places=2)
+    DtAvaliacao = models.DateField("DtAvaliacao", max_length=10)
+    Obs = models.CharField("Obs", max_length=50)
+    Professor = models.ForeignKey("Professor", on_delete=models.CASCADE)
+    Aluno = models.ForeignKey("Alunos", on_delete=models.CASCADE)
+    AtividadeVinculada = models.ForeignKey("AtividadeVinculada", on_delete=models.CASCADE)
+    def __str__(self):
+        return self.Aluno
