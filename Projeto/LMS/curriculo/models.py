@@ -53,7 +53,7 @@ class Disciplina(models.Model):
 	BibliografiaComplementar = models.CharField("BibliografiaComplementar", max_length=255)
 	PercentualPratico = models.SmallIntegerField("PercentualPratico") 
 	PercentualTeorico = models.SmallIntegerField("PercentualTeorico")
-	IdCoordenador = models.ForeignKey('Coordenador', on_delete=models.DO_NOTHING)
+	IdCoordenador = models.ForeignKey('Coordenador', on_delete=models.CASCADE)
 	
 	def __str__(self):
 		return self.Nome
@@ -65,15 +65,15 @@ class Curso(models.Model):
 		
 class DisciplinaOfertada(models.Model):
 	ID = models.AutoField("ID", primary_key=True)
-	IdCoordenador = models.ForeignKey('Coordenador', on_delete=models.DO_NOTHING)
+	IdCoordenador = models.ForeignKey('Coordenador', on_delete=models.CASCADE)
 	DtInicioMatricula = models.DateField("DtInicioMatricula", null=True)
 	DtFimMatricula = models.DateField("DtFimMatricula", null=True)
-	IdDisciplina = models.ForeignKey('Disciplina', on_delete=models.DO_NOTHING)
-	IdCurso = models.ForeignKey('Curso', on_delete=models.DO_NOTHING)
+	IdDisciplina = models.ForeignKey('Disciplina', on_delete=models.CASCADE)
+	IdCurso = models.ForeignKey('Curso', on_delete=models.CASCADE)
 	Ano = models.SmallIntegerField("Ano")
 	Semestre = models.SmallIntegerField("Semestre")
 	Turma = models.CharField("Turma", max_length=255)
-	IdProfessor = models.ForeignKey('Professor', on_delete=models.DO_NOTHING, null=True)
+	IdProfessor = models.ForeignKey('Professor', on_delete=models.CASCADE, null=True)
 	Metodologia = models.CharField("Metodologia", max_length=255, null=True)
 	Recursos = models.CharField("Recursos", max_length=255, null=True)
 	CriterioAvaliacao = models.CharField("CriterioAvaliacao", max_length=255, null=True)
